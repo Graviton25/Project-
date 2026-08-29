@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="NOVA — Shop More, Live Better">
+<title>NOVA — Shop More, Live Better</title>
+<style>
+:root{
+  --nav:#101b2a;--nav2:#172638;--yellow:#ffb900;--orange:#ff9900;
+  --bg:#eaeded;--card:#fff;--text:#17202b;--muted:#667085;--line:#d8dde4;
+  --red:#d92323;--green:#17833b;--shadow:0 2px 7px rgba(15,23,42,.12);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text);font-size:14px}
+button,input,select{font:inherit}button{cursor:pointer;border:0}a{text-decoration:none;color:inherit}
+.topbar{height:60px;background:var(--nav);color:#fff;display:flex;align-items:center;gap:18px;padding:0 18px}
+.logo{font-weight:900;font-size:31px;line-height:.85;letter-spacing:-1.8px;color:#fff;position:relative;white-space:nowrap}
+.logo:after{content:"";display:block;width:30px;height:5px;background:var(--yellow);transform:skew(-35deg);margin-left:79px;margin-top:-3px}
+.tagline{font-size:11px;color:#ffbf32;margin-top:7px;letter-spacing:.2px}
+.deliver{display:flex;gap:7px;align-items:center;min-width:130px;color:#fff}
+.deliver small{color:#d9e1eb}.deliver b{display:block}
+.search-wrap{flex:1;display:flex;height:40px;max-width:710px}
+.search-select{width:58px;border:0;border-right:1px solid #ddd;background:#f3f3f3;border-radius:5px 0 0 5px;padding:0 8px;color:#555}
+.search-input{flex:1;border:0;padding:0 14px;outline:0;font-size:15px}
+.search-btn{width:52px;background:var(--orange);border-radius:0 5px 5px 0;font-size:21px}
+.top-action{color:#fff;white-space:nowrap;line-height:1.05}
+.top-action small{display:block;color:#fff}
+.top-action b{font-size:13px}
+.cart-top{font-size:28px;position:relative;padding-left:8px}
+.cart-count{position:absolute;top:-7px;right:-4px;background:var(--orange);color:#111;border-radius:50%;min-width:19px;height:19px;text-align:center;font-size:11px;font-weight:900;padding-top:3px}
+.mainnav{height:42px;background:var(--nav2);color:#fff;display:flex;align-items:center;padding:0 18px;gap:24px;font-weight:700}
+.mainnav a{height:42px;display:flex;align-items:center;position:relative}
+.mainnav a:hover{color:#ffbf32}
+.mainnav .active{color:#ffbf32}.mainnav .active:after{content:"";position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--yellow)}
+.mainnav .cat-menu{font-weight:800}
+.layout{max-width:1500px;margin:auto;padding:14px;display:grid;grid-template-columns:198px minmax(0,1fr) 318px;gap:14px}
+.sidebar,.service-card,.signup,.category-card,.deal-card,.product-card{background:#fff;border:1px solid #e0e4e9;border-radius:5px}
+.sidebar{padding:12px;height:max-content}
+.sidebar h3{font-size:15px;margin-bottom:10px}
+.side-cat{border-bottom:1px solid #eee;padding:9px 2px}
+.side-cat>button{background:none;width:100%;display:flex;justify-content:space-between;text-align:left;font-weight:700;color:#222}
+.side-sub{display:none;padding:5px 0 0 23px}
+.side-cat.open .side-sub{display:block}
+.side-sub button{display:block;background:none;padding:5px 0;color:#444;width:100%;text-align:left;font-size:13px}
+.side-sub button:hover{color:#c45500;text-decoration:underline}
+.hero{height:300px;border-radius:6px;overflow:hidden;position:relative;background:#14273a}
+.hero img{width:100%;height:100%;object-fit:cover}
+.hero:after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,20,35,.82),rgba(5,20,35,.18) 65%,transparent)}
+.hero-copy{position:absolute;z-index:2;left:11%;top:50%;transform:translateY(-50%);color:#fff;max-width:410px}
+.hero-copy .eyebrow{font-weight:800;letter-spacing:1px;font-size:15px}
+.hero-copy h1{font-size:36px;line-height:1.05;margin:9px 0}
+.hero-copy p{font-size:18px;margin-bottom:18px}
+.yellow-btn{background:#ffb700;border:1px solid #d89500;border-radius:5px;padding:10px 22px;font-weight:800;color:#111}
+.slider-arrow{position:absolute;z-index:3;top:50%;transform:translateY(-50%);background:#061525aa;color:#fff;border-radius:50%;width:42px;height:42px;font-size:25px}
+.left-arrow{left:13px}.right-arrow{right:13px}
+.dots{position:absolute;z-index:3;bottom:14px;left:50%;transform:translateX(-50%);display:flex;gap:8px}
+.dots i{width:9px;height:9px;border-radius:50%;background:#fff8}.dots i.active{background:#fff}
+.services{display:grid;grid-template-columns:1fr 1fr;margin-bottom:14px}
+.service-card{border-radius:0;min-height:86px;padding:17px;display:flex;gap:14px;align-items:center}
+.service-card:nth-child(odd){border-right:0}
+.service-icon{font-size:28px}.service-card b{display:block}.service-card small{color:#667085}
+.signup{margin-top:14px;padding:20px;background:#fff}
+.signup h3{font-size:18px;margin-bottom:8px}.signup p{color:#555;line-height:1.45;margin-bottom:12px}
+.signup .gift{float:right;font-size:50px;margin-top:-40px}
+.section{max-width:1500px;margin:auto;padding:0 14px 15px}
+.section-title{display:flex;align-items:center;justify-content:space-between;margin:7px 0 11px}
+.section-title h2{font-size:21px}.view-all{color:#007185;font-size:13px}
+.category-grid{display:grid;grid-template-columns:repeat(8,1fr);gap:10px}
+.category-card{overflow:hidden;text-align:center;min-width:0;transition:.22s;position:relative;cursor:pointer}.category-card.selected{border:2px solid #ff9900;box-shadow:0 7px 18px #ff990033}
+.category-card:hover{transform:translateY(-4px);box-shadow:0 8px 18px #0002}
+.category-card img{width:100%;height:120px;object-fit:cover;transition:.4s}
+.category-card:hover img{transform:scale(1.08)}
+.category-card b{display:block;padding:10px 4px 12px;font-size:13px}
+.deals{display:grid;grid-template-columns:repeat(7,1fr);gap:10px}
+.deal-card{position:relative;padding:10px;min-width:0;transition:.2s}
+.deal-card:hover{transform:translateY(-3px);box-shadow:var(--shadow)}
+.discount{display:inline-block;background:#cc2020;color:#fff;font-weight:800;font-size:11px;padding:4px 6px;border-radius:3px;margin-bottom:5px}
+.deal-card img{width:100%;height:130px;object-fit:contain;transition:.35s}
+.deal-card:hover img{transform:scale(1.1) rotate(1deg)}
+.deal-name{font-size:12px;min-height:31px;margin-top:4px}
+.price{font-size:16px;font-weight:800;color:var(--red);margin-top:6px}.old{color:#666;text-decoration:line-through;font-size:11px;margin-left:4px;font-weight:400}
+.rating{color:#f5a400;font-size:12px;margin-top:4px}
+.products{display:grid;grid-template-columns:repeat(7,1fr);gap:10px}
+.product-card{padding:10px;position:relative;overflow:hidden;transition:.22s}
+.product-card:hover{transform:translateY(-4px);box-shadow:0 9px 22px #0002}
+.product-card img{width:100%;height:145px;object-fit:contain;transition:.4s}
+.product-card:hover img{transform:scale(1.1) rotate(-1deg)}
+.heart{position:absolute;right:7px;top:7px;background:#fff;border:1px solid #ddd;width:30px;height:30px;border-radius:50%;z-index:2}
+.heart.active{color:#d92323}.brand{font-size:11px;color:#777;margin-top:4px}.product-name{font-size:13px;line-height:1.25;min-height:34px;margin-top:4px}
+.add{width:100%;background:#ffd814;border:1px solid #fcd200;border-radius:20px;padding:7px;font-size:12px;font-weight:700;margin-top:8px}
+.add:hover{background:#f7ca00}
+.deal-header{display:flex;gap:10px;align-items:center}.timer{color:#c22;border:1px solid #f0b1b1;padding:4px 7px;border-radius:3px;font-size:12px;font-weight:700}
+.brand-strip{display:flex;gap:8px;overflow:auto;padding-bottom:4px}.brand-pill{background:#fff;border:1px solid #ddd;border-radius:4px;padding:10px 16px;white-space:nowrap;font-weight:700}
+.brand-pill:hover{border-color:#ff9900;color:#c45500}
+.bottom-area{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.info-box{background:#fff;border:1px solid #ddd;padding:20px;border-radius:5px;line-height:1.6}
+.info-box h3{margin-bottom:7px}
+.ai-fab{position:fixed;right:22px;bottom:20px;width:58px;height:58px;border-radius:50%;background:#12223a;color:#fff;font-size:25px;box-shadow:0 6px 20px #0004;z-index:100}
+.ai-box{position:fixed;right:22px;bottom:88px;width:350px;height:450px;background:#fff;border-radius:10px;box-shadow:0 10px 35px #0004;z-index:101;display:none;overflow:hidden;border:1px solid #ddd}
+.ai-box.open{display:flex;flex-direction:column}
+.ai-head{background:#12223a;color:#fff;padding:13px;display:flex;justify-content:space-between}.ai-head button{background:none;color:#fff}
+.ai-messages{flex:1;padding:12px;overflow:auto;background:#f7f8fa}.ai-msg{padding:9px 11px;border-radius:12px;margin-bottom:8px;max-width:84%;line-height:1.4}.bot{background:#fff;border:1px solid #ddd}.user{background:#ff9900;color:#111;margin-left:auto}
+.ai-input{display:flex;padding:9px;border-top:1px solid #ddd;gap:6px}.ai-input input{flex:1;border:1px solid #ccc;border-radius:6px;padding:9px}.ai-input button{background:#ff9900;border-radius:6px;padding:0 13px}
+footer{background:#111b28;color:#cdd6e1;padding:40px 20px;margin-top:20px}.footer-grid{max-width:1400px;margin:auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:30px}.footer-grid h3{color:#fff;margin-bottom:10px}.footer-grid p,.footer-grid a{display:block;margin:7px 0;color:#aeb9c7}
+.drawer{position:fixed;inset:0;background:#0007;z-index:150;display:none}.drawer.open{display:block}.panel{position:absolute;right:0;top:0;height:100%;width:min(430px,100%);background:#fff;padding:18px;overflow:auto}.panel-head{display:flex;justify-content:space-between;border-bottom:1px solid #ddd;padding-bottom:12px;margin-bottom:12px}.close{background:#eee;border-radius:6px;padding:7px 10px}.cart-item{display:flex;gap:10px;padding:12px 0;border-bottom:1px solid #eee}.thumb{width:65px;height:65px;background:#f4f4f4;display:grid;place-items:center;overflow:hidden}.thumb img{width:100%;height:100%;object-fit:contain}.qty{display:flex;gap:7px;align-items:center;margin-top:7px}.qty button{width:25px;height:25px;background:#eee;border-radius:5px}.empty{text-align:center;color:#777;padding:50px 10px}.cart-total{display:flex;justify-content:space-between;font-size:22px;font-weight:800;margin:18px 0}
+.toast{position:fixed;bottom:20px;left:50%;transform:translate(-50%,30px);background:#111;color:#fff;padding:11px 18px;border-radius:7px;opacity:0;transition:.2s;z-index:300}.toast.show{opacity:1;transform:translate(-50%,0)}
+.map{width:100%;height:300px;border:0;border-radius:5px}
+@media(max-width:1200px){.layout{grid-template-columns:180px minmax(0,1fr)}.right-col{display:none}.category-grid{grid-template-columns:repeat(6,1fr)}.deals,.products{grid-template-columns:repeat(5,1fr)}}
+@media(max-width:850px){.topbar{height:auto;min-height:105px;flex-wrap:wrap;padding:10px}.deliver{display:none}.search-wrap{order:5;flex-basis:100%;max-width:none}.mainnav{overflow:auto;gap:18px}.layout{grid-template-columns:1fr}.sidebar{display:none}.category-grid{grid-template-columns:repeat(4,1fr)}.deals,.products{grid-template-columns:repeat(3,1fr)}.hero{height:270px}}
+@media(max-width:550px){.top-action.lang{display:none}.logo{font-size:27px}.mainnav a:nth-child(n+5){display:none}.category-grid{grid-template-columns:repeat(2,1fr)}.deals,.products{grid-template-columns:repeat(2,1fr)}.hero-copy{left:7%;max-width:75%}.hero-copy h1{font-size:27px}.hero-copy p{font-size:14px}.hero{height:245px}.bottom-area{grid-template-columns:1fr}.ai-box{right:10px;bottom:82px;width:calc(100% - 20px)}}
+.trend-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.trend-card{min-height:155px;border-radius:9px;padding:20px;color:#fff;display:flex;flex-direction:column;justify-content:flex-end;background-size:cover;background-position:center;position:relative;overflow:hidden;box-shadow:var(--shadow)}.trend-card:before{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#06111dcc,#06111d15)}.trend-card>*{position:relative}.trend-card span{font-size:11px;font-weight:800;letter-spacing:1px}.trend-card b{font-size:20px;margin:4px 0 10px}.trend-card button{align-self:flex-start;background:#fff;color:#111;border-radius:20px;padding:7px 12px;font-size:12px;font-weight:800}@media(max-width:1200px){.trend-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:550px){.trend-grid{grid-template-columns:1fr 1fr}.trend-card{min-height:135px}.trend-card b{font-size:16px}}
+.nova-dashboard{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.dash-card{min-height:155px;border-radius:9px;padding:20px;color:#fff;display:flex;flex-direction:column;justify-content:flex-end;background-size:cover;background-position:center;position:relative;overflow:hidden;box-shadow:0 4px 15px #0002;transition:.25s}.dash-card:hover{transform:translateY(-5px);box-shadow:0 10px 25px #0003}.dash-card:before{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#06111dcc,#06111d10)}.dash-card>*{position:relative}.dash-card span{font-size:11px;font-weight:800;letter-spacing:1px}.dash-card b{font-size:20px;margin:5px 0 11px}.dash-card button{align-self:flex-start;background:#fff;border-radius:20px;padding:8px 13px;font-weight:800;font-size:12px}.tech{background-image:url("https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=900&q=85")}.fashion{background-image:url("https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&w=900&q=85")}.homepick{background-image:url("https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=900&q=85")}.beauty{background-image:url("https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=900&q=85")}@media(max-width:1200px){.nova-dashboard{grid-template-columns:repeat(2,1fr)}}@media(max-width:550px){.nova-dashboard{grid-template-columns:1fr 1fr}.dash-card{min-height:140px}.dash-card b{font-size:16px}}
+/* NOVA visual polish v3 */
+body{background:#f3f5f7}
+.layout{align-items:start}.hero{box-shadow:0 10px 30px #07192a18;border-radius:10px}
+.hero img{filter:saturate(1.08);transition:transform .7s,opacity .35s}.hero:hover img{transform:scale(1.025)}
+.hero-copy{max-width:520px;text-shadow:0 2px 12px #0008}.hero-copy h1{font-size:clamp(29px,3.1vw,45px);font-weight:900}.hero-copy p{max-width:390px}
+.hero-products{position:absolute;right:7%;top:50%;transform:translateY(-50%);z-index:2;display:flex;gap:10px;align-items:flex-end}.hero-products img{width:92px;height:92px;border-radius:18px;background:#fff;object-fit:contain;padding:7px;box-shadow:0 12px 30px #0005;animation:floaty 3.2s ease-in-out infinite}.hero-products img:nth-child(2){width:118px;height:118px;animation-delay:.35s}.hero-products img:nth-child(3){width:84px;height:84px;animation-delay:.7s}@keyframes floaty{50%{transform:translateY(-10px) rotate(2deg)}}
+.services{border-radius:10px;overflow:hidden;box-shadow:0 7px 20px #07192a12}.service-card{min-height:82px}.service-card b{font-size:15px}.service-card small{display:block;margin-top:3px}
+.category-grid{grid-template-columns:repeat(6,1fr);gap:12px}.category-card{border-radius:10px;box-shadow:0 3px 14px #07192a0d}.category-card img{height:145px;background:#f7f7f7}.category-card:after{content:'Shop now ›';display:block;color:#007185;font-size:11px;font-weight:800;padding:0 4px 10px}.category-card.selected{transform:translateY(-3px)}
+.section{padding-top:5px}.section-title{margin-top:14px}.section-title h2{font-size:23px;font-weight:900}.products,.deals{gap:12px}.product-card,.deal-card{border-radius:9px;box-shadow:0 3px 14px #07192a0c}.product-card img{height:160px}.product-card .add{cursor:pointer}
+.deal-card{overflow:hidden}.deal-card img{height:145px}.discount{box-shadow:0 2px 7px #0002}
+.nova-dashboard{gap:14px!important}.dash-card{min-height:185px!important;border-radius:12px!important;box-shadow:0 10px 25px #07192a18!important}.dash-card:after{opacity:.9!important}
+.brand-strip{padding:5px 2px 12px}.brand-pill{border-radius:22px;box-shadow:0 3px 10px #0000000d;cursor:pointer}
+.mobile-cat-note{display:none}
+@media(max-width:1200px){.category-grid{grid-template-columns:repeat(4,1fr)}.hero-products{right:5%}.hero-products img:first-child{display:none}}
+@media(max-width:850px){.hero-products{display:none}.hero{height:290px}.hero-copy{left:7%;max-width:75%}.category-grid{grid-template-columns:repeat(3,1fr)}.category-card img{height:125px}.mobile-cat-note{display:block;color:#667085;font-size:12px;margin-top:-5px;margin-bottom:10px}}
+@media(max-width:550px){.layout{padding:10px}.hero{height:310px;border-radius:9px}.hero-copy{left:22px;top:52%;max-width:calc(100% - 44px)}.hero-copy h1{font-size:30px}.hero-copy p{font-size:15px}.yellow-btn{padding:11px 18px}.category-grid{grid-template-columns:repeat(2,1fr);gap:9px}.category-card img{height:125px}.category-card b{font-size:12px;padding:8px 3px 5px}.category-card small{font-size:10px}.products{gap:8px}.product-card{padding:8px}.product-card img{height:135px}.product-name{font-size:12px}.price{font-size:15px}.deal-card img{height:120px}.service-card{padding:13px;min-height:86px}.service-icon{font-size:22px}}
+
+.hero-sale{position:absolute;right:10%;top:12%;z-index:4;width:66px;height:66px;border-radius:50%;display:grid;place-items:center;text-align:center;background:#ef3b3b;color:#fff;font-size:8px;font-weight:900;line-height:1.05;box-shadow:0 8px 20px #0005}.hero-sale strong{font-size:21px}
+.collections-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.collection-card{min-height:150px;border-radius:9px;overflow:hidden;position:relative;background:#fff;text-align:left;box-shadow:var(--shadow)}.collection-card img{width:100%;height:100%;min-height:150px;object-fit:cover;transition:.35s}.collection-card:after{content:"";position:absolute;inset:35% 0 0;background:linear-gradient(transparent,rgba(0,0,0,.8))}.collection-card span{position:absolute;z-index:2;left:12px;bottom:12px;color:#fff}.collection-card b,.collection-card small{display:block}.collection-card small{font-size:11px;opacity:.8;margin-top:3px}.collection-card:hover img,.collection-card:active img{transform:scale(1.08)}.mobile-bottom-nav{display:none}
+
+@media(max-width:550px){
+body{background:#07111d;color:#f4f7fb;padding-bottom:74px}
+.topbar{height:auto;min-height:88px;padding:13px 18px 10px;gap:0;display:grid;grid-template-columns:1fr auto auto auto;align-items:center;background:#07111d;color:#fff;border-bottom:1px solid #263445}
+.logo{font-size:29px}.tagline{font-size:11px;color:#f6b51d}.deliver,.top-action.lang{display:none!important}.top-action{font-size:0;margin-left:13px}.top-action small,.top-action b{font-size:0}.top-action:before{content:"♙";font-size:28px;color:#fff}.cart-top{font-size:28px;padding:0;margin-left:14px}.topbar>b:last-child{display:none}
+.search-wrap{order:5;grid-column:1/-1;width:100%;height:56px;margin-top:11px;max-width:none;box-shadow:0 5px 18px #0004;border-radius:8px;overflow:hidden}.search-select{width:120px;background:#f4f4f4;font-size:15px}.search-input{font-size:16px;min-width:0}.search-btn{width:58px;font-size:23px;background:#ffad00}
+.mainnav{height:61px;padding:0 25px;gap:34px;overflow-x:auto;white-space:nowrap;background:#0e1b2b;border-bottom:1px solid #253447;scrollbar-width:none}.mainnav::-webkit-scrollbar{display:none}.mainnav a{height:61px;font-size:15px}.mainnav a:nth-child(n+6){display:none}
+.layout{display:block;padding:0 12px;margin:0}.sidebar,.right-col{display:none}main{width:100%}
+.hero{height:256px;margin:10px 0 9px;border-radius:9px;background:#101e30;box-shadow:0 8px 24px #0005}.hero img#heroImage{object-fit:cover;opacity:.42}.hero:after{background:linear-gradient(90deg,rgba(4,14,28,.96),rgba(4,14,28,.76) 47%,rgba(4,14,28,.18))}
+.hero-copy{left:28px;top:50%;max-width:56%;transform:translateY(-50%)}.hero-copy .eyebrow{font-size:11px}.hero-copy h1{font-size:29px;line-height:1.08}.hero-copy p{font-size:14px;line-height:1.35}.yellow-btn{padding:10px 16px;font-size:13px}.slider-arrow{width:43px;height:43px;background:#07111dcc}.hero-sale{right:7%;top:10%;width:60px;height:60px}.hero-sale strong{font-size:19px}
+.hero-products{display:flex!important;right:4%;top:56%;width:48%;height:150px;position:absolute;transform:translateY(-50%);align-items:center}.hero-products img{position:absolute;width:76px;height:76px;border-radius:12px;padding:4px;background:#ffffffd9;box-shadow:0 9px 22px #0007}.hero-products img:nth-child(1){right:65px;bottom:30px;display:block!important}.hero-products img:nth-child(2){right:4px;bottom:50px;width:93px;height:93px}.hero-products img:nth-child(3){right:30px;bottom:0;width:68px;height:68px}.hero-products img:nth-child(4){right:92px;bottom:0;width:62px;height:62px}.hero-products img:nth-child(5){right:4px;bottom:0;width:58px;height:58px}.hero-products img:nth-child(6){right:58px;bottom:0;width:55px;height:55px}
+.dots{bottom:8px}
+.services{grid-template-columns:repeat(4,1fr);margin:0 0 10px;background:#0f1b29;border:1px solid #26384b;border-radius:9px;overflow:hidden}.service-card{min-height:78px;padding:10px 5px;flex-direction:column;justify-content:center;align-items:center;text-align:center;gap:5px;background:#0f1b29;color:#f4f7fb;border:0!important;border-right:1px solid #26384b!important}.service-card:last-child{border-right:0!important}.service-card b{font-size:10px}.service-card small{font-size:8px;color:#9eacbc}
+.section{padding:0 12px 10px}.section-title h2{font-size:20px;color:#f5f7fa}.view-all{color:#ffbf24}.mobile-cat-note{color:#9eacbc!important}
+.category-grid{display:flex;overflow-x:auto;gap:12px;padding:2px 1px 7px;scrollbar-width:none;scroll-snap-type:x mandatory}.category-grid::-webkit-scrollbar{display:none}.category-card{flex:0 0 94px;background:transparent;border:0!important;box-shadow:none!important;scroll-snap-align:start;color:#fff}.category-card img{width:84px;height:84px!important;margin:auto;border-radius:50%;object-fit:cover;border:2px solid #33465b;padding:2px;background:#162333;box-shadow:0 5px 16px #0005}.category-card b{font-size:11px;padding:7px 1px 1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.category-card small{font-size:9px!important;color:#8e9aaa!important;padding:2px 0 0!important}.category-card.selected img{border-color:#ffb800;box-shadow:0 0 0 3px #ffb80033,0 7px 18px #0006}
+.deals,.products{display:flex;overflow-x:auto;gap:9px;scroll-snap-type:x mandatory;scrollbar-width:none;padding-bottom:5px}.deals::-webkit-scrollbar,.products::-webkit-scrollbar{display:none}.deal-card{flex:0 0 154px;scroll-snap-align:start;padding:8px;background:#101d2b;border:1px solid #2b3b4d;border-radius:8px;color:#f3f5f7}.deal-card img{height:126px;background:#0c1724;border-radius:5px}.deal-name{font-size:11px}.discount{font-size:9px}.product-card{flex:0 0 158px;scroll-snap-align:start;padding:8px;background:#101d2b;border:1px solid #2b3b4d;border-radius:8px;color:#f3f5f7}.product-card img{height:135px;background:#0c1724;border-radius:5px}.brand{color:#93a1b1}.product-name{font-size:11px}.heart{background:#132131;color:#e9eef5;border-color:#415163}.price{font-size:15px}
+.collections-grid{display:flex;overflow-x:auto;gap:9px;scrollbar-width:none}.collections-grid::-webkit-scrollbar{display:none}.collection-card{flex:0 0 165px;min-height:118px;border:1px solid #2b3b4d;background:#101d2b;color:#fff}.collection-card img{min-height:118px}.collection-card span{left:10px;bottom:9px}
+.trend-grid,.nova-dashboard{display:flex;overflow-x:auto;gap:9px;scrollbar-width:none}.trend-grid::-webkit-scrollbar,.nova-dashboard::-webkit-scrollbar{display:none}.trend-card,.dash-card{flex:0 0 190px!important;min-height:135px!important}
+.brand-strip{overflow-x:auto;scrollbar-width:none}.brand-strip::-webkit-scrollbar{display:none}.brand-pill{background:#101d2b;color:#fff;border-color:#2b3b4d}
+.bottom-area{grid-template-columns:1fr}.info-box{background:#101d2b;color:#eaf0f6;border-color:#2b3b4d}footer{background:#050d16}.footer-grid{grid-template-columns:1fr 1fr}.ai-fab{right:18px;bottom:82px}.ai-box{right:10px;bottom:80px;width:calc(100% - 20px)}
+.mobile-bottom-nav{position:fixed;display:grid;grid-template-columns:repeat(5,1fr);left:0;right:0;bottom:0;height:70px;z-index:200;background:#08121f;border-top:1px solid #2b3b4d;box-shadow:0 -8px 25px #0006}.mobile-bottom-nav button{background:none;color:#e4eaf1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px}.mobile-bottom-nav button span{font-size:24px}.mobile-bottom-nav button small{font-size:10px}.mobile-bottom-nav button.active,.mobile-bottom-nav button:active{color:#ffb900}
+}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <a href="#" onclick="home();return false">
+    <div class="logo">NOVA</div><div class="tagline">Shop More, Live Better</div>
+  </a>
+  <div class="deliver">📍 <div><small>Deliver to</small><b id="locationText">Addis Ababa, Ethiopia</b></div></div>
+
+  <div class="search-wrap">
+    <select id="searchScope" class="search-select"><option>All</option><option>Clothes</option><option>Jewelry</option><option>Electronics</option><option>Home</option><option>Beauty</option></select>
+    <input id="searchInput" class="search-input" placeholder="Search for products, brands and more..." oninput="renderProducts()" onkeydown="if(event.key==='Enter')universalSearch()">
+    <button class="search-btn" onclick="universalSearch()">🔍</button>
+  </div>
+
+  <button class="top-action lang" onclick="toast('Language selector')">🇺🇸 EN⌄</button>
+  <button class="top-action" onclick="toast('Account & Lists')"><small>Hello, Sign in</small><b>Account & Lists⌄</b></button>
+  <button class="top-action" onclick="showOrders()"><small>Returns</small><b>& Orders⌄</b></button>
+  <button class="cart-top" onclick="openCart()">🛒<span id="cartCount" class="cart-count">0</span></button>
+  <b>Cart</b>
+</div>
+
+<nav class="mainnav">
+  <a class="cat-menu" href="#catalog" onclick="toggleSidebar()">☰ &nbsp;All Categories</a>
+  <a class="active" href="#home">Home</a><a href="#items">Shop</a><a href="#deals">Today's Deals</a>
+  <a href="#best">Best Sellers</a><a href="#catalog">New Arrivals</a><a href="#brands">Brands</a>
+  <a href="#" onclick="showOrders();return false">My Orders</a><a href="#contact">Customer Service</a>
+  <a href="#" onclick="showFavorites();return false" style="margin-left:auto">♡ Favorites</a>
+  <a href="#" onclick="toast('Order tracking will connect to your backend');return false">◷ Track Order</a>
+</nav>
+
+<div id="home" class="layout">
+  <aside id="sidebar" class="sidebar">
+    <h3>Shop by Category</h3>
+    <div id="sideCategories"></div>
+  </aside>
+
+  <main>
+    <section class="hero">
+      <img id="heroImage" src="https://images.unsplash.com/photo-1546868871-7041f2a55e15?auto=format&fit=crop&w=1400&q=88" alt="Smartwatch">
+      <button class="slider-arrow left-arrow" onclick="prevHero()">‹</button>
+      <button class="slider-arrow right-arrow" onclick="nextHero()">›</button>
+      <div class="hero-sale" aria-hidden="true">UP TO<br><strong>50%</strong><br>OFF</div><div class="hero-products" aria-hidden="true">
+        <img src="https://images.unsplash.com/photo-1546868871-7041f2a55e15?auto=format&fit=crop&w=500&q=90" alt="">
+        <img src="https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?auto=format&fit=crop&w=500&q=90" alt="">
+        <img src="https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?auto=format&fit=crop&w=500&q=90" alt=""><img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=500&q=90" alt=""><img src="https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?auto=format&fit=crop&w=500&q=90" alt="">
+      </div>
+      <div class="hero-copy">
+        <div class="eyebrow">SMARTER. FASTER. BETTER.</div>
+        <h1 id="heroTitle">Up to 50% Off<br>Electronics & More</h1>
+        <p id="heroText">Discover today's best deals across the store.</p>
+        <button class="yellow-btn" onclick="filterCategory('Electronics')">Shop Now</button>
+      </div>
+      <div class="dots" id="heroDots"></div>
+    </section>
+
+    <section class="services">
+      <div class="service-card">🚚 <div><b>Free Delivery</b><small>On qualifying orders</small></div></div>
+      <div class="service-card">↩️ <div><b>Easy Returns</b><small>30-day return policy</small></div></div>
+      <div class="service-card">🛡️ <div><b>Secure Payment</b><small>100% secure payments</small></div></div>
+      <div class="service-card">🎧 <div><b>24/7 Support</b><small>We're here to help</small></div></div>
+    </section>
+  </main>
+
+  <aside class="right-col">
+    <div class="signup"><span class="gift">🎁</span><h3>New Customer?</h3><p>Get 10% OFF your first order.</p><button class="yellow-btn" onclick="toast('Sign-up form ready for backend')">Sign Up Now</button></div>
+    <div class="signup"><h3>Today's Deal</h3><p>Wireless headphones and electronics are on sale.</p><button class="yellow-btn" onclick="filterCategory('Electronics')">Shop Deals</button></div>
+  </aside>
+</div>
+
+<section class="section" id="catalog">
+  <div class="section-title"><div><h2>Shop by Category</h2><div class="mobile-cat-note">Tap any category to see its products ↓</div></div><a class="view-all" href="#items">View All ›</a></div>
+  <div class="category-grid" id="categoryGrid"></div>
+</section>
+
+<section class="section" id="deals">
+  <div class="section-title">
+    <div class="deal-header"><h2>Deals of the Day</h2><span class="timer" id="timer">Ends in: 08:45:32</span></div>
+    <a class="view-all" href="#items">View All Deals ›</a>
+  </div>
+  <div class="deals" id="dealGrid"></div>
+</section>
+
+
+<section class="section collections-section" id="collections">
+<div class="section-title"><h2>Discover Top Collections</h2><a class="view-all" href="#items">View All ›</a></div>
+<div class="collections-grid">
+<button class="collection-card" onclick="filterCategory('Clothes')"><img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=900&q=88"><span><b>New Arrivals</b><small>Latest trends</small></span></button>
+<button class="collection-card" onclick="filterCategory('Electronics')"><img src="https://images.unsplash.com/photo-1468495244123-6c6c332eeece?auto=format&fit=crop&w=900&q=88"><span><b>Best Sellers</b><small>Top rated products</small></span></button>
+<button class="collection-card" onclick="filterCategory('Sports')"><img src="https://images.unsplash.com/photo-1461896836934-ffe607ba8211?auto=format&fit=crop&w=900&q=88"><span><b>Summer Collection</b><small>Hot picks</small></span></button>
+<button class="collection-card" onclick="filterCategory('Jewelry')"><img src="https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=900&q=88"><span><b>Premium Brands</b><small>Trusted quality</small></span></button>
+</div></section>
+<section class="section" id="best">
+  <div class="section-title"><h2>Popular Products</h2><a class="view-all" href="#items">View All ›</a></div>
+  <div class="products" id="bestGrid"></div>
+</section>
+
+<section class="section" id="trending">
+<div class="section-title"><h2>Trending Now</h2><a class="view-all" href="#items">Explore ›</a></div>
+<div class="trend-grid">
+<div class="trend-card" style="background-image:url(https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=900&q=85)"><span>TECH WEEK</span><b>Upgrade your setup</b><button onclick="filterCategory('Electronics')">Explore Electronics</button></div>
+<div class="trend-card" style="background-image:url(https://images.unsplash.com/photo-1445205170230-053b83016050?auto=format&fit=crop&w=900&q=85)"><span>NEW SEASON</span><b>Fresh fashion picks</b><button onclick="filterCategory('Clothes')">Shop Fashion</button></div>
+<div class="trend-card" style="background-image:url(https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=900&q=85)"><span>HOME EDIT</span><b>Make your space better</b><button onclick="filterCategory('Home')">Shop Home</button></div>
+<div class="trend-card" style="background-image:url(https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=900&q=85)"><span>BEAUTY PICKS</span><b>Everyday essentials</b><button onclick="filterCategory('Beauty')">Shop Beauty</button></div>
+</div></section>
+
+<section class="section" id="quick-dashboard"><div class="section-title"><h2>Shop Smarter</h2><a class="view-all" href="#items">Explore ›</a></div><div class="nova-dashboard"><div class="dash-card tech"><span>TECH PICKS</span><b>Upgrade your setup</b><button onclick="filterCategory('Electronics')">Shop Electronics</button></div><div class="dash-card fashion"><span>NEW SEASON</span><b>Fresh styles</b><button onclick="filterCategory('Clothes')">Shop Fashion</button></div><div class="dash-card homepick"><span>HOME EDIT</span><b>Make home better</b><button onclick="filterCategory('Home')">Shop Home</button></div><div class="dash-card beauty"><span>BEAUTY PICKS</span><b>Everyday essentials</b><button onclick="filterCategory('Beauty')">Shop Beauty</button></div></div></section><section class="section" id="explore-catalog"><div class="section-title"><h2>Explore More Products</h2><a class="view-all" href="#items">See all ›</a></div><div class="products" id="exploreGrid"></div></section><section class="section" id="items">
+  <div class="section-title"><h2>Recommended for You</h2><a class="view-all" href="#" onclick="filterCategory('All');return false">Clear filters</a></div>
+  <div style="display:flex;gap:8px;margin-bottom:10px">
+    <select id="sortSelect" onchange="renderProducts()" style="padding:8px;border:1px solid #ccc;border-radius:4px"><option value="featured">Featured</option><option value="low">Price: Low to High</option><option value="high">Price: High to Low</option><option value="rating">Top Rated</option></select>
+  </div>
+  <div id="products" class="products"></div>
+</section>
+
+
+<section class="section" id="imageGallery">
+  <div class="section-title"><h2>Explore More Products</h2><a class="view-all" href="#items">View All ›</a></div>
+  <div class="products" id="imageGalleryGrid"></div>
+</section>
+<section class="section" id="brands">
+  <div class="section-title"><h2>Popular Brands</h2></div>
+  <div class="brand-strip" id="brandStrip"></div>
+</section>
+
+<section class="section">
+  <div class="bottom-area">
+    <div class="info-box"><h3>About NOVA</h3><p>NOVA is a modern multi-category marketplace for fashion, jewelry, electronics, home, beauty and more. This interface is designed to connect to a production Node.js/PHP API, MySQL database, payment gateway and AI service.</p></div>
+    <div class="info-box" id="contact"><h3>Customer Service</h3><p>📧 support@novashop.example<br>📞 +251 900 000 000<br>📍 Addis Ababa, Ethiopia</p><button class="yellow-btn" onclick="openMap()">Open Google Maps</button></div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div><div class="logo">NOVA</div><p>Shop More, Live Better.</p></div>
+    <div><h3>Get to Know Us</h3><a href="#catalog">About Us</a><a href="#contact">Contact Us</a><a href="#location">Location</a></div>
+    <div><h3>Make Money</h3><a href="#">Sell on NOVA</a><a href="#">Advertise Products</a><a href="#">Become a Partner</a></div>
+    <div><h3>Help</h3><a href="#contact">Customer Service</a><a href="#" onclick="showOrders();return false">Track Order</a><a href="#">Returns</a></div>
+  </div>
+</footer>
+
+<button class="ai-fab" onclick="toggleAI()">✦</button>
+<div id="aiBox" class="ai-box">
+  <div class="ai-head"><b>● NOVA Assistant</b><button onclick="toggleAI()">✕</button></div>
+  <div id="aiMessages" class="ai-messages"><div class="ai-msg bot">Hi 👋 How can I help you today?</div></div>
+  <div class="ai-input"><input id="aiInput" placeholder="Type your message..." onkeydown="if(event.key==='Enter')sendAI()"><button onclick="sendAI()">➤</button></div>
+</div>
+
+<div id="drawer" class="drawer" onclick="closeDrawer(event)">
+  <aside class="panel" onclick="event.stopPropagation()">
+    <div class="panel-head"><h2 id="panelTitle">Your Cart</h2><button class="close" onclick="closeDrawer()">✕</button></div>
+    <div id="panelBody"></div>
+  </aside>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+const products=[
+{id:1,name:"Premium Oversized Hoodie",brand:"NOVA Apparel",category:"Clothes",sub:"Men's Clothing",price:49.99,old:69.99,rating:4.8,reviews:214,image:"https://images.unsplash.com/photo-1551488831-00ddcb6c6bd3?auto=format&fit=crop&w=800&q=85"},
+{id:2,name:"Classic Running Sneakers",brand:"Urban Step",category:"Clothes",sub:"Shoes",price:79.99,old:109.99,rating:4.7,reviews:391,image:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=85"},
+{id:3,name:"Minimal Gold Necklace",brand:"Luna Jewelry",category:"Jewelry",sub:"Necklaces",price:39.99,old:59.99,rating:4.9,reviews:128,image:"https://images.unsplash.com/photo-1599643478518-a784e5dc4c8f?auto=format&fit=crop&w=800&q=85"},
+{id:4,name:"Stainless Steel Watch",brand:"Chronos",category:"Jewelry",sub:"Watches",price:89.99,old:129.99,rating:4.6,reviews:87,image:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=85"},
+{id:5,name:"Wireless Noise-Canceling Headphones",brand:"SoundPro",category:"Electronics",sub:"Headphones",price:129.99,old:179.99,rating:4.8,reviews:512,image:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=800&q=85"},
+{id:6,name:"Ultra HD Smart Phone",brand:"TechOne",category:"Electronics",sub:"Smartphones",price:599.99,old:699.99,rating:4.7,reviews:923,image:"https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?auto=format&fit=crop&w=800&q=85"},
+{id:7,name:"Mechanical RGB Keyboard",brand:"KeyLab",category:"Electronics",sub:"Computer Accessories",price:74.99,old:99.99,rating:4.5,reviews:177,image:"https://images.unsplash.com/photo-1587829741301-dc798b83add3?auto=format&fit=crop&w=800&q=85"},
+{id:8,name:"Smart LED Desk Lamp",brand:"Glow",category:"Home",sub:"Lighting",price:34.99,old:49.99,rating:4.6,reviews:145,image:"https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=800&q=85"},
+{id:9,name:"Ceramic Coffee Set",brand:"Casa",category:"Home",sub:"Kitchen",price:28.99,old:39.99,rating:4.4,reviews:64,image:"https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?auto=format&fit=crop&w=800&q=85"},
+{id:10,name:"Hydrating Skin Care Set",brand:"Pure",category:"Beauty",sub:"Skincare",price:44.99,old:64.99,rating:4.8,reviews:204,image:"https://images.unsplash.com/photo-1556228578-8c89e6adf883?auto=format&fit=crop&w=800&q=85"},
+{id:11,name:"Classic Denim Jacket",brand:"NOVA Apparel",category:"Clothes",sub:"Jackets",price:64.99,old:84.99,rating:4.7,reviews:301,image:"https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=800&q=85"},
+{id:12,name:"Pearl Earrings",brand:"Luna Jewelry",category:"Jewelry",sub:"Earrings",price:54.99,old:74.99,rating:4.9,reviews:111,image:"https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=800&q=85"},
+{id:13,name:"Modern Laptop",brand:"NovaTech",category:"Electronics",sub:"Laptops",price:899.99,old:1099.99,rating:4.8,reviews:331,image:"https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=800&q=85"},
+{id:14,name:"Leather Handbag",brand:"Urban Luxe",category:"Clothes",sub:"Bags & Accessories",price:124.99,old:179.99,rating:4.7,reviews:219,image:"https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=800&q=85"},
+{id:15,name:"Classic Sunglasses",brand:"Vista",category:"Clothes",sub:"Accessories",price:59.99,old:89.99,rating:4.6,reviews:154,image:"https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=800&q=85"},
+{id:16,name:"Premium Coffee Maker",brand:"Casa",category:"Home",sub:"Kitchen",price:119.99,old:159.99,rating:4.7,reviews:188,image:"https://images.unsplash.com/photo-1517668808822-9ebb02f2a0e6?auto=format&fit=crop&w=800&q=85"}
+];
+
+products.push(
+{id:17,name:"Women's Linen Blazer",brand:"NOVA Apparel",category:"Clothes",sub:"Women's Clothing",price:84.99,old:119.99,rating:4.8,reviews:176,image:"https://images.unsplash.com/photo-1591369822096-ffd140ec948f?auto=format&fit=crop&w=800&q=85"},
+{id:18,name:"Men's Leather Jacket",brand:"Urban Luxe",category:"Clothes",sub:"Men's Clothing",price:149.99,old:199.99,rating:4.7,reviews:231,image:"https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&w=800&q=85"},
+{id:19,name:"Canvas Travel Backpack",brand:"TrailPack",category:"Clothes",sub:"Bags & Accessories",price:69.99,old:94.99,rating:4.7,reviews:143,image:"https://images.unsplash.com/photo-1553062407-98eeb64c6a62?auto=format&fit=crop&w=800&q=85"},
+{id:20,name:"Gold Hoop Earrings",brand:"Luna Jewelry",category:"Jewelry",sub:"Earrings",price:34.99,old:49.99,rating:4.9,reviews:267,image:"https://images.unsplash.com/photo-1535632066927-ab7c9ab60908?auto=format&fit=crop&w=800&q=85"},
+{id:21,name:"Elegant Diamond Ring",brand:"Luna Jewelry",category:"Jewelry",sub:"Rings",price:249.99,old:329.99,rating:4.9,reviews:96,image:"https://images.unsplash.com/photo-1605100804763-247f67b3557e?auto=format&fit=crop&w=800&q=85"},
+{id:22,name:"Luxury Chronograph Watch",brand:"Chronos",category:"Jewelry",sub:"Watches",price:179.99,old:249.99,rating:4.8,reviews:154,image:"https://images.unsplash.com/photo-1524805444758-089113d48a6d?auto=format&fit=crop&w=800&q=85"},
+{id:23,name:"Flagship Android Phone",brand:"NovaTech",category:"Electronics",sub:"Smartphones",price:749.99,old:899.99,rating:4.8,reviews:631,image:"https://images.unsplash.com/photo-1598327105666-5b89351aff97?auto=format&fit=crop&w=800&q=85"},
+{id:24,name:"Pro Wireless Earbuds",brand:"SoundPro",category:"Electronics",sub:"Headphones",price:89.99,old:129.99,rating:4.7,reviews:882,image:"https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?auto=format&fit=crop&w=800&q=85"},
+{id:25,name:"Slim Business Laptop",brand:"NovaTech",category:"Electronics",sub:"Laptops",price:999.99,old:1199.99,rating:4.8,reviews:288,image:"https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=800&q=85"},
+{id:26,name:"4K Smart Television",brand:"VisionMax",category:"Electronics",sub:"TV & Home Theater",price:649.99,old:799.99,rating:4.6,reviews:411,image:"https://images.unsplash.com/photo-1593784991095-a205069470b6?auto=format&fit=crop&w=800&q=85"},
+{id:27,name:"Robot Vacuum Cleaner",brand:"Casa",category:"Home",sub:"Cleaning",price:229.99,old:299.99,rating:4.6,reviews:318,image:"https://images.unsplash.com/photo-1585771724684-38269d6639fd?auto=format&fit=crop&w=800&q=85"},
+{id:28,name:"Modern Lounge Chair",brand:"Casa",category:"Home",sub:"Furniture",price:199.99,old:269.99,rating:4.7,reviews:102,image:"https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=800&q=85"},
+{id:29,name:"Minimal Ceramic Vase",brand:"Casa",category:"Home",sub:"Decor",price:29.99,old:44.99,rating:4.5,reviews:79,image:"https://images.unsplash.com/photo-1578500494198-246f612d3b3d?auto=format&fit=crop&w=800&q=85"},
+{id:30,name:"Premium Makeup Collection",brand:"Pure",category:"Beauty",sub:"Makeup",price:69.99,old:94.99,rating:4.8,reviews:239,image:"https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?auto=format&fit=crop&w=800&q=85"},
+{id:31,name:"Luxury Perfume",brand:"Pure",category:"Beauty",sub:"Fragrance",price:79.99,old:109.99,rating:4.7,reviews:186,image:"https://images.unsplash.com/photo-1541643600914-78b084683601?auto=format&fit=crop&w=800&q=85"},
+{id:32,name:"Daily Sunscreen SPF 50",brand:"Pure",category:"Beauty",sub:"Skincare",price:24.99,old:34.99,rating:4.8,reviews:511,image:"https://images.unsplash.com/photo-1556229010-6c3f2c9ca5f8?auto=format&fit=crop&w=800&q=85"},
+{id:33,name:"Running Training Shoes",brand:"Active",category:"Sports",sub:"Fitness",price:94.99,old:129.99,rating:4.8,reviews:301,image:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?auto=format&fit=crop&w=800&q=85"},
+{id:34,name:"Yoga Mat Pro",brand:"Active",category:"Sports",sub:"Fitness",price:39.99,old:54.99,rating:4.7,reviews:207,image:"https://images.unsplash.com/photo-1592432678016-e910b452f9a2?auto=format&fit=crop&w=800&q=85"},
+{id:35,name:"Wireless Game Controller",brand:"GameHub",category:"Toys & Games",sub:"Games",price:59.99,old:74.99,rating:4.7,reviews:432,image:"https://images.unsplash.com/photo-1593305841991-05c297ba4575?auto=format&fit=crop&w=800&q=85"},
+{id:36,name:"Premium Building Blocks",brand:"PlayWorks",category:"Toys & Games",sub:"Toys",price:39.99,old:54.99,rating:4.8,reviews:219,image:"https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?auto=format&fit=crop&w=800&q=85"},
+{id:37,name:"Car Wireless Charger",brand:"AutoPro",category:"Automotive",sub:"Accessories",price:29.99,old:39.99,rating:4.6,reviews:142,image:"https://images.unsplash.com/photo-1486006920555-c77dcf18193c?auto=format&fit=crop&w=800&q=85"},
+{id:38,name:"Modern Desk Organizer",brand:"OfficePro",category:"Books & Office",sub:"Office",price:19.99,old:29.99,rating:4.5,reviews:63,image:"https://images.unsplash.com/photo-1517842645767-c639042777db?auto=format&fit=crop&w=800&q=85"},
+{id:39,name:"Hardcover Business Planner",brand:"OfficePro",category:"Books & Office",sub:"Books",price:22.99,old:32.99,rating:4.6,reviews:54,image:"https://images.unsplash.com/photo-1495446815901-a7297e633e8d?auto=format&fit=crop&w=800&q=85"},
+{id:40,name:"Wellness Essential Kit",brand:"WellLife",category:"Health & Wellness",sub:"Wellness",price:49.99,old:69.99,rating:4.7,reviews:121,image:"https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=800&q=85"}
+);
+
+products.push(
+{id:43,name:"Designer Sunglasses",brand:"Vista",category:"Clothes",sub:"Accessories",price:79.99,old:109.99,rating:4.8,reviews:184,image:"https://images.unsplash.com/photo-1511499767150-a48a237f0083?auto=format&fit=crop&w=800&q=85"},
+{id:44,name:"Women's Casual Dress",brand:"NOVA Apparel",category:"Clothes",sub:"Women's Clothing",price:59.99,old:84.99,rating:4.7,reviews:245,image:"https://images.unsplash.com/photo-1595777457583-95e059d581b8?auto=format&fit=crop&w=800&q=85"},
+{id:45,name:"Diamond Style Bracelet",brand:"Luna Jewelry",category:"Jewelry",sub:"Bracelets",price:69.99,old:99.99,rating:4.9,reviews:137,image:"https://images.unsplash.com/photo-1611652022419-a9419f74343d?auto=format&fit=crop&w=800&q=85"},
+{id:46,name:"Premium Smartwatch",brand:"NovaTech",category:"Electronics",sub:"Wearables",price:159.99,old:219.99,rating:4.8,reviews:512,image:"https://images.unsplash.com/photo-1546868871-7041f2a55e15?auto=format&fit=crop&w=800&q=85"},
+{id:47,name:"Portable Bluetooth Speaker",brand:"SoundPro",category:"Electronics",sub:"Audio",price:69.99,old:99.99,rating:4.7,reviews:344,image:"https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?auto=format&fit=crop&w=800&q=85"},
+{id:48,name:"Modern Floor Lamp",brand:"Glow",category:"Home",sub:"Lighting",price:79.99,old:109.99,rating:4.6,reviews:119,image:"https://images.unsplash.com/photo-1507473885765-e6ed057f782c?auto=format&fit=crop&w=800&q=85"},
+{id:49,name:"Luxury Bedding Set",brand:"Casa",category:"Home",sub:"Bedroom",price:89.99,old:129.99,rating:4.8,reviews:153,image:"https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=800&q=85"},
+{id:50,name:"Vitamin C Skincare Serum",brand:"Pure",category:"Beauty",sub:"Skincare",price:29.99,old:44.99,rating:4.8,reviews:391,image:"https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=800&q=85"},
+{id:51,name:"Running Sports Watch",brand:"Active",category:"Sports",sub:"Fitness",price:119.99,old:159.99,rating:4.7,reviews:174,image:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=800&q=85"},
+{id:52,name:"Gaming Headset",brand:"GameHub",category:"Toys & Games",sub:"Games",price:89.99,old:119.99,rating:4.8,reviews:527,image:"https://images.unsplash.com/photo-1599669454699-248893623440?auto=format&fit=crop&w=800&q=85"},
+{id:53,name:"Car Dashboard Camera",brand:"AutoPro",category:"Automotive",sub:"Accessories",price:99.99,old:139.99,rating:4.6,reviews:93,image:"https://images.unsplash.com/photo-1493238792000-8113da705763?auto=format&fit=crop&w=800&q=85"},
+{id:54,name:"Hardcover Bestseller",brand:"BookHouse",category:"Books & Office",sub:"Books",price:18.99,old:25.99,rating:4.8,reviews:204,image:"https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&w=800&q=85"},
+{id:55,name:"Wellness Massage Device",brand:"WellLife",category:"Health & Wellness",sub:"Wellness",price:79.99,old:109.99,rating:4.6,reviews:146,image:"https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?auto=format&fit=crop&w=800&q=85"}
+);
+const categories=[
+["Clothing & Apparel","👕",["Men's Clothing","Women's Clothing","Shoes","Bags & Accessories","Jackets"]],
+["Jewelry & Watches","💎",["Necklaces","Watches","Earrings"]],
+["Electronics","📱",["Smartphones","Headphones","Laptops","Computer Accessories"]],
+["Home & Kitchen","🏠",["Lighting","Kitchen"]],
+["Beauty & Personal Care","🧴",["Skincare"]],
+["Sports & Outdoors","⚽",["Fitness","Outdoor"]],
+["Toys & Games","🎮",["Games","Toys"]],
+["Automotive","🚗",["Accessories","Tools"]],
+["Books & Office","📚",["Books","Office"]],
+["Health & Wellness","❤️",["Wellness","Personal Care"]],["More Categories","＋",["Groceries","Pet Supplies","Travel","Baby Products"]]
+];
+
+const catImages={
+"Clothes":"https://images.unsplash.com/photo-1521572163474-6864f9cf17ab?auto=format&fit=crop&w=700&q=85",
+"Jewelry":"https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=700&q=85",
+"Electronics":"https://images.unsplash.com/photo-1498049794561-7780e7231661?auto=format&fit=crop&w=700&q=85",
+"Home":"https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=700&q=85",
+"Beauty":"https://images.unsplash.com/photo-1598440947619-2c35fc9aa908?auto=format&fit=crop&w=700&q=85",
+"Sports":"https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=700&q=85",
+"Toys & Games":"https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?auto=format&fit=crop&w=700&q=85",
+"Books & Office":"https://images.unsplash.com/photo-1495446815901-a7297e633e8d?auto=format&fit=crop&w=700&q=85",
+"Health & Wellness":"https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=700&q=85",
+"Bags & Accessories":"https://images.unsplash.com/photo-1584917865442-de89df76afd3?auto=format&fit=crop&w=700&q=85",
+"Laptops":"https://images.unsplash.com/photo-1496181133206-80ce9b88a853?auto=format&fit=crop&w=700&q=85",
+"Automotive":"https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?auto=format&fit=crop&w=700&q=85"
+};
+
+let category="All";
+let cart=JSON.parse(localStorage.getItem("nova_cart")||"[]");
+let favorites=JSON.parse(localStorage.getItem("nova_favorites")||"[]");
+let heroes=[
+["https://images.unsplash.com/photo-1546868871-7041f2a55e15?auto=format&fit=crop&w=1400&q=88","Up to 50% Off<br>Electronics & More","Discover today's best deals across the store.","Electronics"],
+["https://images.unsplash.com/photo-1483985988355-763728e1935b?auto=format&fit=crop&w=1400&q=88","New Season<br>Fashion Sale","Fresh styles for every occasion.","Clothes"],
+["https://images.unsplash.com/photo-1515562141207-7a88fb7ce338?auto=format&fit=crop&w=1400&q=88","Jewelry<br>Made to Shine","Discover timeless pieces and accessories.","Jewelry"]
+];
+let heroIndex=0;
+
+function save(){localStorage.setItem("nova_cart",JSON.stringify(cart));localStorage.setItem("nova_favorites",JSON.stringify(favorites));updateBadges()}
+function updateBadges(){document.getElementById("cartCount").textContent=cart.reduce((s,x)=>s+x.qty,0)}
+function toast(t){let e=document.getElementById("toast");e.textContent=t;e.classList.add("show");clearTimeout(window.toastT);window.toastT=setTimeout(()=>e.classList.remove("show"),1800)}
+function home(){window.scrollTo({top:0,behavior:"smooth"})}
+function stars(r){return "★".repeat(Math.round(r))+"☆".repeat(5-Math.round(r))}
+function filterCategory(c){category=c;document.getElementById("searchInput").value="";document.getElementById("searchScope").value="All";document.getElementById("sortSelect").value="featured";renderProducts();renderCategorySelection();let title=document.querySelector('#items .section-title h2');if(title)title.textContent=c==="All"?"Recommended for You":c+" Products";document.getElementById("items").scrollIntoView({behavior:"smooth",block:"start"});toast(c==="All"?"Showing all products":c+" products are now displayed")}
+function searchText(t){document.getElementById("searchInput").value=t;category="All";renderProducts();renderCategorySelection();let title=document.querySelector('#items .section-title h2');if(title)title.textContent=t+" Products";document.getElementById("items").scrollIntoView({behavior:"smooth",block:"start"});toast("Showing products related to "+t)}
+function universalSearch(){let q=document.getElementById("searchInput").value.trim();if(!q){toast("Type a product, brand or category");return}renderProducts();let found=products.some(p=>(p.name+" "+p.brand+" "+p.category+" "+p.sub).toLowerCase().includes(q.toLowerCase()));if(!found){window.open("https://www.google.com/search?q="+encodeURIComponent(q),"googleSearch","noopener");toast("No NOVA match — opened Google search")}else{document.getElementById("items").scrollIntoView({behavior:"smooth"});toast("Search results updated")}}
+function renderSidebar(){
+  document.getElementById("sideCategories").innerHTML=categories.map((c,i)=>`<div class="side-cat" id="side${i}"><button onclick="toggleSide(${i});filterCategory(${JSON.stringify(c[0].split(" & ")[0]==="Clothing"?"Clothes":c[0].split(" & ")[0])}">${c[1]} ${c[0]} <span>⌄</span></button><div class="side-sub">${c[2].map(s=>`<button onclick="searchText(${JSON.stringify(s)})">${s}</button>`).join("")}</div></div>`).join("");
+}
+function toggleSide(i){document.querySelectorAll(".side-cat").forEach((e,n)=>{if(n===i)e.classList.toggle("open");else e.classList.remove("open")})}
+function toggleSidebar(){document.getElementById("sidebar").scrollIntoView({behavior:"smooth"})}
+function renderCategories(){
+  let keys=["Clothes","Jewelry","Electronics","Home","Beauty","Sports","Toys & Games","Automotive","Books & Office","Health & Wellness","Bags & Accessories","Laptops"];
+  document.getElementById("categoryGrid").innerHTML=keys.map(k=>{
+    let count=products.filter(p=>p.category===k || p.sub===k || p.sub.includes(k)).length;
+    return `<button class="category-card" data-category="${k}" onclick="filterCategory(${JSON.stringify(k)})"><img src="${catImages[k]||catImages.Clothes}" alt="${k}" loading="lazy"><b>${k}</b><small style="display:block;color:#667085;padding-bottom:8px">${count} products</small></button>`;
+  }).join("");
+}
+function renderCategorySelection(){
+  document.querySelectorAll('.category-card').forEach(el=>el.classList.toggle('selected',el.dataset.category===category));
+}
+function renderProducts(){
+  let q=document.getElementById("searchInput").value.toLowerCase(),scope=document.getElementById("searchScope").value;
+  let list=products.filter(p=>(category==="All"||p.category===category)&&(scope==="All"||p.category===scope)&&(!q||(`${p.name} ${p.brand} ${p.category} ${p.sub}`).toLowerCase().includes(q)));
+  let sort=document.getElementById("sortSelect").value;
+  if(sort==="low")list.sort((a,b)=>a.price-b.price);if(sort==="high")list.sort((a,b)=>b.price-a.price);if(sort==="rating")list.sort((a,b)=>b.rating-a.rating);
+  document.getElementById("products").innerHTML=list.length?list.map(productCard).join(""):`<div class="empty" style="grid-column:1/-1">No products found in NOVA. Press search again to search Google.</div>`;
+}
+function productCard(p){
+ return `<article class="product-card" onclick="quickView(${p.id})">
+ <button class="heart ${favorites.includes(p.id)?"active":""}" onclick="event.stopPropagation();toggleFav(${p.id})">${favorites.includes(p.id)?"♥":"♡"}</button>
+ <img src="${p.image}" alt="${p.name}" loading="lazy">
+ <div class="brand">${p.brand}</div><div class="product-name">${p.name}</div>
+ <div class="rating">${stars(p.rating)} <span style="color:#777">(${p.reviews})</span></div>
+ <div class="price">$${p.price.toFixed(2)} <span class="old">$${p.old.toFixed(2)}</span></div>
+ <button class="add" onclick="event.stopPropagation();addToCart(${p.id})">Add to cart</button></article>`;
+}
+function renderDeals(){
+  document.getElementById("dealGrid").innerHTML=products.slice(5,12).map((p,i)=>`<article class="deal-card" onclick="quickView(${p.id})" style="cursor:pointer"><span class="discount">${[43,35,40,50,30,38,46][i]}% OFF</span><img src="${p.image}" alt="${p.name}" loading="lazy"><div class="deal-name">${p.name}</div><div class="price">$${p.price.toFixed(2)} <span class="old">$${p.old.toFixed(2)}</span></div></article>`).join("");
+}
+function renderExplore(){document.getElementById("exploreGrid").innerHTML=products.slice(-12).reverse().map(productCard).join("")}
+function renderBest(){document.getElementById("bestGrid").innerHTML=products.slice().sort((a,b)=>b.reviews-a.reviews).slice(0,7).map(productCard).join("")}
+
+function renderImageGallery(){
+ const picks=products.slice(0,16);
+ const el=document.getElementById("imageGalleryGrid");
+ if(el) el.innerHTML=picks.map(productCard).join("");
+}
+function renderBrands(){
+ let brands=[...new Set(products.map(p=>p.brand))];document.getElementById("brandStrip").innerHTML=brands.map(b=>`<button class="brand-pill" onclick="searchText(${JSON.stringify(b)})">${b}</button>`).join("");
+}
+function toggleFav(id){favorites.includes(id)?favorites=favorites.filter(x=>x!==id):favorites.push(id);save();renderProducts();renderBest();toast(favorites.includes(id)?"Added to Favorites":"Removed from Favorites")}
+function addToCart(id){let x=cart.find(i=>i.id===id);x?x.qty++:cart.push({id,qty:1});save();toast("Added to cart")}
+function quickView(id){let p=products.find(x=>x.id===id);if(!p)return;document.getElementById("panelTitle").textContent=p.name;document.getElementById("panelBody").innerHTML=`<div style="text-align:center"><img src="${p.image}" alt="${p.name}" style="width:100%;height:270px;object-fit:contain;background:#f7f7f7;border-radius:8px"><h2 style="margin:15px 0 6px">${p.name}</h2><div style="color:#777">${p.brand} · ${p.sub}</div><div class="rating" style="margin:9px 0">${stars(p.rating)} (${p.reviews} reviews)</div><div class="price" style="font-size:25px">$${p.price.toFixed(2)} <span class="old">$${p.old.toFixed(2)}</span></div><button class="yellow-btn" style="width:100%;margin-top:16px" onclick="addToCart(${p.id});closeDrawer()">Add to Cart</button></div>`;document.getElementById("drawer").classList.add("open")}
+function openCart(){
+ document.getElementById("panelTitle").textContent="Your Cart";
+ let total=cart.reduce((s,x)=>s+products.find(p=>p.id===x.id).price*x.qty,0);
+ document.getElementById("panelBody").innerHTML=cart.length?cart.map(x=>{let p=products.find(p=>p.id===x.id);return `<div class="cart-item"><div class="thumb"><img src="${p.image}" alt=""></div><div style="flex:1"><b>${p.name}</b><div>$${p.price.toFixed(2)}</div><div class="qty"><button onclick="changeQty(${p.id},-1)">−</button>${x.qty}<button onclick="changeQty(${p.id},1)">+</button></div></div></div>`}).join("")+`<div class="cart-total"><span>Total</span><span>$${total.toFixed(2)}</span></div><button class="yellow-btn" style="width:100%" onclick="checkout()">Proceed to checkout</button>`:`<div class="empty">🛒<br><br>Your cart is empty.</div>`;
+ document.getElementById("drawer").classList.add("open");
+}
+function changeQty(id,d){let x=cart.find(i=>i.id===id);if(!x)return;x.qty+=d;if(x.qty<=0)cart=cart.filter(i=>i.id!==id);save();openCart()}
+function checkout(){if(!cart.length)return;toast("Checkout is ready to connect to your payment gateway")}
+function closeDrawer(e){if(!e||e.target.id==="drawer")document.getElementById("drawer").classList.remove("open")}
+function showFavorites(){document.getElementById("panelTitle").textContent="Favorites";let list=products.filter(p=>favorites.includes(p.id));document.getElementById("panelBody").innerHTML=list.length?list.map(productCard).join(""):`<div class="empty">♡<br><br>No favorites yet.</div>`;document.getElementById("drawer").classList.add("open")}
+function showOrders(){document.getElementById("panelTitle").textContent="My Orders";let o=JSON.parse(localStorage.getItem("nova_orders")||"[]");document.getElementById("panelBody").innerHTML=o.length?o.map(x=>`<div class="cart-item"><div class="thumb">📦</div><div><b>Order #${x.id}</b><br>${x.items} item(s) • $${x.total.toFixed(2)}<br><span style="color:green">${x.status}</span></div></div>`).join(""):`<div class="empty">📦<br><br>No orders yet.</div>`;document.getElementById("drawer").classList.add("open")}
+function openMap(){window.open("https://www.google.com/maps/search/?api=1&query=Addis+Ababa+Ethiopia","map","noopener")}
+function toggleAI(){document.getElementById("aiBox").classList.toggle("open")}
+function sendAI(){let i=document.getElementById("aiInput"),q=i.value.trim();if(!q)return;addAI(q,"user");i.value="";let s=q.toLowerCase(),a="I can help you find products, brands, categories, orders and payments.";if(s.includes("order"))a="Open My Orders from the top menu to see your order history.";else if(s.includes("payment"))a="NOVA can connect to card payments, PayPal, Mobile Money and other gateways through the backend.";else if(s.includes("electronics")){filterCategory("Electronics");a="I filtered Electronics for you."}else if(s.includes("clothes")||s.includes("fashion")){filterCategory("Clothes");a="I filtered Clothes for you."}else if(s.includes("jewelry")){filterCategory("Jewelry");a="I filtered Jewelry for you."}else if(s.includes("location")){openMap();a="I opened Google Maps for our location."}else if(products.some(p=>(p.name+" "+p.brand+" "+p.sub).toLowerCase().includes(s))){searchText(q);a="I found matching products in NOVA and filtered the store for you."}setTimeout(()=>addAI(a,"bot"),250)}
+function addAI(t,c){let m=document.getElementById("aiMessages"),d=document.createElement("div");d.className="ai-msg "+c;d.textContent=t;m.appendChild(d);m.scrollTop=m.scrollHeight}
+function setHero(){let h=heroes[heroIndex];document.getElementById("heroImage").src=h[0];document.getElementById("heroTitle").innerHTML=h[1];document.getElementById("heroText").textContent=h[2];document.getElementById("heroDots").innerHTML=heroes.map((_,i)=>`<i class="${i===heroIndex?"active":""}"></i>`).join("")}
+function nextHero(){heroIndex=(heroIndex+1)%heroes.length;setHero()}function prevHero(){heroIndex=(heroIndex-1+heroes.length)%heroes.length;setHero()}
+setInterval(nextHero,7000);
+let remaining=8*3600+45*60+32;setInterval(()=>{remaining--;if(remaining<0)remaining=0;let h=String(Math.floor(remaining/3600)).padStart(2,"0"),m=String(Math.floor(remaining%3600/60)).padStart(2,"0"),s=String(remaining%60).padStart(2,"0");document.getElementById("timer").textContent=`Ends in: ${h}:${m}:${s}`},1000);
+
+renderSidebar();renderCategories();renderDeals();renderExplore();renderBest();renderImageGallery();renderBrands();setHero();updateBadges();renderProducts();
+</script>
+
+<nav class="mobile-bottom-nav"><button class="active" onclick="home()"><span>⌂</span><small>Home</small></button><button onclick="document.getElementById('catalog').scrollIntoView({behavior:'smooth'})"><span>▦</span><small>Categories</small></button><button onclick="document.getElementById('deals').scrollIntoView({behavior:'smooth'})"><span>％</span><small>Deals</small></button><button onclick="showFavorites()"><span>♡</span><small>Wishlist</small></button><button onclick="toast('Account & Lists')"><span>♙</span><small>Account</small></button></nav>
+</body>
+</html>
